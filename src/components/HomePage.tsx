@@ -1,4 +1,5 @@
 import {
+  Button,
   createMuiTheme,
   Tab,
   Tabs,
@@ -8,9 +9,12 @@ import {
 import { Theme } from "@material-ui/core";
 import { Container } from "@material-ui/core";
 import { Box, makeStyles, Typography } from "@material-ui/core";
+import { ExitToApp } from "@material-ui/icons";
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import theme from "../theme";
+import Community from "./Community";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme: Theme) => ({
   sidebar: {
@@ -30,6 +34,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   content: {
     zIndex: 9999,
+  },
+  logoutButton: {
+    "&:hover": {
+      transition: "color .3s",
+      color: "#ff1f1f",
+    },
+    "&:not(:hover)": {
+      transition: "color .3s",
+      color: "black",
+    },
   },
 }));
 
@@ -84,10 +98,17 @@ const SectionTitle = (props) => {
 };
 
 const HomePage: React.FC = () => {
+  const router = useRouter();
   const classes = useStyles();
   const [tab, setTab] = useState<number>(0);
 
   const handleSetTab = (_: ChangeEvent<{}>, active: number) => setTab(active);
+
+  const logout = () => {
+    document.cookie =
+      "__cyclekids=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    router.push("/login");
+  };
 
   return (
     <Box display={"flex"} width={"100%"} height={"100vh"}>
@@ -119,6 +140,15 @@ const HomePage: React.FC = () => {
             <VerticalTab label={"O que é reciclagem?"} />
             <VerticalTab label={"Como descartar"} />
             <VerticalTab label={"Comunidade"} />
+            <Box marginTop={5} display={"flex"} justifyContent={"center"}>
+              <Button
+                onClick={() => logout()}
+                className={classes.logoutButton}
+                startIcon={<ExitToApp />}
+              >
+                Sair
+              </Button>
+            </Box>
           </VerticalTabs>
         </Box>
       </Box>
@@ -185,6 +215,7 @@ const HomePage: React.FC = () => {
               <SectionTitle>Comunidade</SectionTitle>
               &emsp;&emsp;Veja o que a comunidade já reciclou até agora e siga
               seu exemplo!
+              <Community />
             </TabContainer>
           )}
         </Container>
