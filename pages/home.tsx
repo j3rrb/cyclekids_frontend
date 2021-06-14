@@ -1,11 +1,52 @@
+import { AxiosError } from "axios";
 import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
+import { SWRConfig } from "swr";
 import HomePage from "../src/components/HomePage";
+import Api from "../src/services/api";
+import { useRouter } from "next/router";
 
-const homePage = () => <HomePage />;
+const homePage: React.FC<{ token: string }> = ({ token }) => {
+  const router = useRouter();
 
-const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const fetcher = async (url) =>
+    await Api(token)
+      .get(url)
+      .then((res) => res.data)
+      .catch((err: AxiosError) => {
+        return err.response.status === 401 && router.push("/login");
+      });
+
+  return (
+    <SWRConfig
+      value={{
+        fetcher,
+        revalidateOnFocus: false,
+        revalidateOnMount: true,
+        revalidateOnReconnect: true,
+      }}
+    >
+      <HomePage />
+    </SWRConfig>
+  );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const token = parseCookies(ctx).__cyclekids;
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: true,
+      },
+    };
+  }
+
   return {
-    props: {},
+    props: {
+      token: token,
+    },
   };
 };
 
