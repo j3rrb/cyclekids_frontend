@@ -56,6 +56,7 @@ const typotheme = createMuiTheme({
 const VerticalTabs = withStyles(() => ({
   flexContainer: {
     flexDirection: "column",
+    alignItems: "center",
   },
   indicator: {
     display: "none",
@@ -68,7 +69,7 @@ const VerticalTab = withStyles(() => ({
   },
 }))(Tab);
 
-const TabContainer = (props) => {
+const TabContainer: React.FC = (props) => {
   return (
     <Box margin={theme.spacing(0.5)}>
       <Typography
@@ -134,22 +135,31 @@ const HomePage: React.FC = () => {
           </Box>
         </ThemeProvider>
         <Box>
-          <VerticalTabs value={tab} onChange={handleSetTab}>
+          <VerticalTabs
+            value={tab}
+            onChange={handleSetTab}
+            style={{
+              display: "flex",
+              justifyContent: "start",
+              alignItems: "start",
+            }}
+          >
             <VerticalTab label={"Sistema 5 Rs"} />
             <VerticalTab label={"O que é lixo?"} />
             <VerticalTab label={"O que é reciclagem?"} />
             <VerticalTab label={"Como descartar"} />
             <VerticalTab label={"Comunidade"} />
-            <Box marginTop={5} display={"flex"} justifyContent={"center"}>
-              <Button
-                onClick={() => logout()}
-                className={classes.logoutButton}
-                startIcon={<ExitToApp />}
-              >
-                Sair
-              </Button>
-            </Box>
           </VerticalTabs>
+          <Box marginTop={5} paddingLeft={"5%"}>
+            <Button
+              onClick={() => logout()}
+              fullWidth
+              className={classes.logoutButton}
+              startIcon={<ExitToApp />}
+            >
+              Sair
+            </Button>
+          </Box>
         </Box>
       </Box>
       <Box className={classes.bg}></Box>

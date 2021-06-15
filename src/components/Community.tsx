@@ -1,18 +1,20 @@
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, Card } from "@material-ui/core";
 import useSWR from "swr";
 import { Post } from "../types";
 
 const Community: React.FC = () => {
-  const { data, error } = useSWR<Post>("posts/");
+  const { data } = useSWR<{ posts: Post[] }>("posts/");
 
-  if (!data) console.log("loading");
-
-  return (
+  return data ? (
     <Grid container>
-      <Grid item xs={6}>
-        <Typography>Teste</Typography>
-      </Grid>
+      {data.posts.map((post: Post) => (
+        <Card key={post.id}>
+          <Typography>{post.text}</Typography>
+        </Card>
+      ))}
     </Grid>
+  ) : (
+    <h1>Carregando</h1>
   );
 };
 

@@ -16,13 +16,16 @@ import { decode } from "jsonwebtoken";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    width: "100%",
+    width: "100vw",
     height: "100vh",
     padding: 0,
     margin: 0,
   },
+  title: {
+    margin: 20,
+  },
   login: {
-    width: "30%",
+    minWidth: "15%",
     height: "100%",
     padding: 15,
     backgroundColor: theme.palette.common.white,
@@ -31,12 +34,17 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "100%",
     width: "100%",
     backgroundColor: theme.palette.primary.main,
+    backgroundImage: `url('${require("../../public/bg_login_img.jpg")}')`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "100% 100%",
+    zIndex: -100,
   },
   inputs: {
     marginTop: "20%",
     "& > *": {
       margin: theme.spacing(1),
     },
+    paddingRight: 15,
   },
 }));
 
@@ -65,7 +73,7 @@ const Login: React.FC = () => {
         const tokenProps: any = decode(token);
 
         setCookie(null, "__cyclekids", token, {
-          sameSite: tokenProps["exp"],
+          sameSite: true,
           path: "/",
         });
 
@@ -82,45 +90,45 @@ const Login: React.FC = () => {
     <Container maxWidth={"lg"} className={classes.root}>
       <Box display={"flex"} className={classes.root}>
         <form className={classes.login} method={"POST"} onSubmit={signIn}>
-          <Typography paragraph variant={"h4"}>
-            Login
-          </Typography>
-          <Box>
-            <Box className={classes.inputs}>
-              <TextField
-                color={"secondary"}
-                required
-                name={"username"}
-                variant={"outlined"}
-                label={"Usuário"}
-                onChange={handleGetData}
-              />
-              <TextField
-                color={"secondary"}
-                onBlur={() => setError("")}
-                required
-                type={"password"}
-                error={!!error}
-                helperText={error}
-                name={"password"}
-                variant={"outlined"}
-                label={"Senha"}
-                onChange={handleGetData}
-              />
-            </Box>
-            <Box marginTop={2}>
-              <Button color={"secondary"} type={"submit"}>
-                Entrar
-              </Button>
-              <Button onClick={async () => router.push("/create")}>
-                Criar uma conta
-              </Button>
-            </Box>
+          <Box className={classes.title}>
+            <Typography paragraph variant={"h2"}>
+              Login
+            </Typography>
+          </Box>
+          <Box className={classes.inputs}>
+            <TextField
+              color={"secondary"}
+              fullWidth
+              required
+              name={"username"}
+              variant={"outlined"}
+              label={"Usuário"}
+              onChange={handleGetData}
+            />
+            <TextField
+              color={"secondary"}
+              onBlur={() => setError("")}
+              required
+              fullWidth
+              type={"password"}
+              error={!!error}
+              helperText={error}
+              name={"password"}
+              variant={"outlined"}
+              label={"Senha"}
+              onChange={handleGetData}
+            />
+          </Box>
+          <Box marginTop={2}>
+            <Button color={"secondary"} type={"submit"}>
+              Entrar
+            </Button>
+            <Button onClick={async () => router.push("/create")}>
+              Criar uma conta
+            </Button>
           </Box>
         </form>
-        <Box className={classes.background}>
-          <Typography>Image</Typography>
-        </Box>
+        <Box className={classes.background}></Box>
       </Box>
     </Container>
   );
