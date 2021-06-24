@@ -9,12 +9,12 @@ import { useRouter } from "next/router";
 const homePage: React.FC<{ token: string }> = ({ token }) => {
   const router = useRouter();
 
-  const fetcher = async (url) =>
-    await Api(token)
+  const fetcher = (url: string) =>
+    Api(token)
       .get(url)
       .then((res) => res.data)
-      .catch((err: AxiosError) => {
-        return err.response.status === 401 && router.push("/login");
+      .catch(async (err: AxiosError) => {
+        err.response?.status === 401 && (await router.push("/login"));
       });
 
   return (
@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      token: token,
+      token,
     },
   };
 };

@@ -169,7 +169,7 @@ const HomePage: React.FC = () => {
         width={"100%"}
         height={"100%"}
       >
-        <Container maxWidth={"lg"}>
+        <Container maxWidth={"xl"}>
           {tab === 0 && (
             <TabContainer>
               <SectionTitle>Sistema 5 Rs</SectionTitle> &emsp;&emsp;Os 5 Rs são
@@ -223,8 +223,10 @@ const HomePage: React.FC = () => {
           {tab === 4 && (
             <TabContainer>
               <SectionTitle>Comunidade</SectionTitle>
-              &emsp;&emsp;Veja o que a comunidade já reciclou até agora e siga
-              seu exemplo!
+              <Typography variant={"h4"} align={"center"}>
+                &emsp;&emsp;Veja o que a comunidade já reciclou até agora e siga
+                seu exemplo!
+              </Typography>
               <Community />
             </TabContainer>
           )}

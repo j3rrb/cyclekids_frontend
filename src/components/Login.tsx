@@ -12,7 +12,6 @@ import { useRouter } from "next/router";
 import { AxiosError } from "axios";
 import Api from "../services/api";
 import { setCookie } from "nookies";
-import { decode } from "jsonwebtoken";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -67,13 +66,13 @@ const Login: React.FC = () => {
     event.preventDefault();
 
     return await Api(null)
-      .post("login", userData)
+      .post("auth/login/", userData)
       .then((res) => {
         const token: string = res.data.access;
-        const tokenProps: any = decode(token);
 
         setCookie(null, "__cyclekids", token, {
           sameSite: true,
+          maxAge: 300,
           path: "/",
         });
 
