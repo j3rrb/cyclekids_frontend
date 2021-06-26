@@ -14,8 +14,8 @@ import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import theme from "../theme";
 import Community from "./Community";
-import { useRouter } from "next/router";
 
+// Estilo dos componentes
 const useStyles = makeStyles((theme: Theme) => ({
   sidebar: {
     backgroundColor: theme.palette.primary.main,
@@ -47,12 +47,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+// Estilo da Typografia
 const typotheme = createMuiTheme({
   typography: {
     fontFamily: ['"Nanum pen Script"', "TitilliumWeb", "Roboto"].join(","),
   },
 });
 
+// Estilo das tabs
 const VerticalTabs = withStyles(() => ({
   flexContainer: {
     flexDirection: "column",
@@ -63,6 +65,7 @@ const VerticalTabs = withStyles(() => ({
   },
 }))(Tabs);
 
+// Estilo da tab
 const VerticalTab = withStyles(() => ({
   selected: {
     color: "#005C4F",
@@ -99,16 +102,16 @@ const SectionTitle = (props) => {
 };
 
 const HomePage: React.FC = () => {
-  const router = useRouter();
   const classes = useStyles();
-  const [tab, setTab] = useState<number>(0);
+  const [tab, setTab] = useState(0);
 
+  // Altera o estado das tabs
   const handleSetTab = (_: ChangeEvent<{}>, active: number) => setTab(active);
 
+  // Realiza o logout do usuário
   const logout = () => {
     document.cookie =
       "__cyclekids=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    router.push("/login");
   };
 
   return (
@@ -147,7 +150,6 @@ const HomePage: React.FC = () => {
             <VerticalTab label={"Sistema 5 Rs"} />
             <VerticalTab label={"O que é lixo?"} />
             <VerticalTab label={"O que é reciclagem?"} />
-            <VerticalTab label={"Como descartar"} />
             <VerticalTab label={"Comunidade"} />
           </VerticalTabs>
           <Box marginTop={5} paddingLeft={"5%"}>
@@ -217,15 +219,14 @@ const HomePage: React.FC = () => {
           )}
           {tab === 3 && (
             <TabContainer>
-              <SectionTitle>Como descartar</SectionTitle>
-            </TabContainer>
-          )}
-          {tab === 4 && (
-            <TabContainer>
               <SectionTitle>Comunidade</SectionTitle>
-              <Typography variant={"h4"} align={"center"}>
-                &emsp;&emsp;Veja o que a comunidade já reciclou até agora e siga
-                seu exemplo!
+              <Typography
+                style={{ fontWeight: "lighter" }}
+                variant={"h4"}
+                align={"center"}
+              >
+                Veja o que a comunidade já reciclou até agora e siga seu
+                exemplo!
               </Typography>
               <Community />
             </TabContainer>
